@@ -1,6 +1,20 @@
+'use strict';
+
 const { App } = require('@slack/bolt');
 const dotenv = require('dotenv');
 const path = require('path');
+
+const fs = require('fs');
+
+const tzListFile = 'tzlist.json'
+
+const getTZList = (tzlistPath) => {
+	let tzList = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), tzListFile)));
+
+	return tzList;
+};
+
+console.log(getTZList(tzListFile));
 
 const result = dotenv.config({
 	path: path.resolve(process.cwd(), '.env')
