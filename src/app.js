@@ -8,13 +8,9 @@ const fs = require('fs');
 
 const tzListFile = 'tzlist.json'
 
-const getTZList = (tzlistPath) => {
-	let tzList = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), tzListFile)));
-
-	return tzList;
+const getTZList = (tzListPath) => {
+	return JSON.parse(fs.readFileSync(tzListPath));
 };
-
-console.log(getTZList(tzListFile));
 
 const result = dotenv.config({
 	path: path.resolve(process.cwd(), '.env')
@@ -30,8 +26,15 @@ const app = new App({
 	port: process.env.PORT || 3000
 });
 
-app.message('hello', async ({ message, say }) => {
-	await say(`hey there <@${message.user}>!`);
+const tzlist = getTZList(path.resolve(process.cwd(), tzListFile));
+const pattern = new RegExp(Object.keys(tzlist).join('|'), 'g');
+
+app.message(pattern, async ({ message, say }) => {
+	for(const tz of message.text.match(pattern)) {
+		const hour_diff = tzlist[tz];
+		const response_body = `The time difference between *${tz}* and UTC is ${hour_diff} hour(s).`;
+		await say(response_body);
+	}
 });
 
 (async () => {
