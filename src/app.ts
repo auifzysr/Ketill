@@ -24,6 +24,8 @@ const app = new App({
 const tzlist = tz.tzlist;
 const pattern = new RegExp(Object.keys(tz.tzlist).join('|'), 'g');
 
+// temporary workaround
+// https://github.com/slackapi/bolt-js/issues/904
 app.message(pattern, async ({ message, say }) => {
 	for(const tz of (message as GenericMessageEvent).text?.match(pattern) || []) {
 		const hour_diff = tzlist[tz];
