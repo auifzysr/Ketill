@@ -1,6 +1,6 @@
 "use strict";
 
-import { App, BotMessageEvent, GenericMessageEvent } from "@slack/bolt";
+import { App, GenericMessageEvent } from "@slack/bolt";
 
 import dotenv = require("dotenv");
 import path = require("path");
@@ -29,9 +29,9 @@ const pattern = new RegExp(Object.keys(tz.tzlist).join("|"), "g");
 app.message(pattern, async ({ message, say }) => {
   for (const tz of (message as GenericMessageEvent).text?.match(pattern) ||
     []) {
-    const hour_diff = tzlist[tz];
-    const response_body = `The time difference between *${tz}* and UTC is *${hour_diff} hour(s)*.`;
-    await say(response_body);
+    const hourDiff = tzlist[tz];
+    const responseBody = `The time difference between *${tz}* and UTC is *${hourDiff} hour(s)*.`;
+    await say(responseBody);
   }
 });
 
