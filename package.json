@@ -7,7 +7,9 @@
     "build:watch": "tsc -w -p .",
     "start": "npm run build && node dist/app.js",
     "lint:eslint": "eslint . --ext ts",
-    "fix:eslint": "eslint . --ext ts --fix"
+    "fix:eslint": "eslint . --ext ts --fix",
+    "lint:prettier": "prettier --check src",
+    "fix:prettier": "prettier --write src"
   },
   "repository": {
     "type": "git",
